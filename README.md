@@ -1,5 +1,16 @@
 # OpenCV_source
 OpenCVに関するプログラムをまとめたもの。
+なお、各サンプルコードの実行手順を以下に示す。
+
+```
+rm -rf ~/(path to source directory)/build
+mkdir build
+cd build
+cmake ../
+make
+./main
+```
+
 
 ## aruco
 ARマーカー認識のためのOpenCVの拡張モジュール。
