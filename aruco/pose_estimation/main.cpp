@@ -21,7 +21,8 @@ static bool readCameraParameters(string filename, Mat &camMatrix, Mat &distCoeff
 
 int main(int argc, const char* argv[])
 {
-    VideoCapture camera(0); //内蔵インカメラが0で，USBで接続したカメラに1以降が割り当てられている
+    char *settings = "nvcamerasrc ! video/x-raw(memory:NVMM), width=(int)1280, height=(int)720, format=(string)I420, framerate=(fraction)24/1 ! nvvidconv flip-method=2 ! video/x-raw, format=(string)BGRx ! videoconvert ! video/x-raw, format=(string)BGR ! appsink";
+    VideoCapture camera(settings); //内蔵インカメラが0で，USBで接続したカメラに1以降が割り当てられている
 
 	if (!camera.isOpened()) {
 	std::cout << "failed to open camera.";
@@ -32,7 +33,7 @@ int main(int argc, const char* argv[])
 	readCameraParameters("calibration.yml", cameraMatrix, distCoeffs);
 
 	// dictionary生成
-    const aruco::PREDEFINED_DICTIONARY_NAME dictionary_name = aruco::DICT_4X4_50;
+    const aruco::PREDEFINED_DICTIONARY_NAME dictionary_name = aruco::DICT_6X6_250;
     Ptr<aruco::Dictionary> dictionary = aruco::getPredefinedDictionary(dictionary_name);
 
 	while(camera.grab())
@@ -61,7 +62,8 @@ int main(int argc, const char* argv[])
 			{
 				aruco::drawAxis(image, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.1); 
 			}
-			//cout << rvecs[0] << "\t\n"; //debug
+			// cout << rvecs[0] << "\t\n"; //debug
+                        cout << tvecs[0] << "\t\n";
 		}
 
 	 	imshow("marker_detection", image);

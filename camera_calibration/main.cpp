@@ -10,7 +10,9 @@ using namespace cv;
 
 int main(int argc, const char* argv[])
 {
-	VideoCapture camera(0);
+
+        char *settings = "nvcamerasrc ! video/x-raw(memory:NVMM), width=(int)1280, height=(int)720, format=(string)I420, framerate=(fraction)24/1 ! nvvidconv flip-method=2 ! video/x-raw, format=(string)BGRx ! videoconvert ! video/x-raw, format=(string)BGR ! appsink";
+	VideoCapture camera(settings);
 
 	// デバッグウインドウを開く
 	namedWindow("debugwindow", CV_WINDOW_AUTOSIZE);
